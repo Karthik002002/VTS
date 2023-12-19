@@ -12,15 +12,21 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet.pm@1.0.3/dist/leaflet.pm.min.css"
     />
+    <link
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="my-custom-map" style="width: 600px; height: 400px"></div>
-
+    
+    <div id="osm-map"></div>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.pm@1.0.3/dist/leaflet.pm.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
     <script>
-      var map = L.map("my-custom-map").setView([17,33], 13);
+      var map = L.map("my-custom-map").setView([17, 33], 13);
 
       L.tileLayer(
         "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -31,7 +37,33 @@
 
       // Add Leaflet.pm functionality
       map.pm.addControls();
+
+
+
+
+        // OSM Map
+      var osmMap = document.getElementById("osm-map");
+
+      // Height has to be set. You can do this in CSS too.
+      osmMap.style = "height:300px;";
+
+      // Create Leaflet map on map element.
+      var map = L.map(osmMap);
+
+      // Add OSM tile layer to the Leaflet map.
+      L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Target's GPS coordinates.
+      var target = L.latLng("47.50737", "19.04611");
+
+      // Set map's center to target with zoom 14.
+      map.setView(target, 14);
+
+      // Place a marker on the same location.
+      L.marker(target).addTo(map);
     </script>
   </body>
 </html>
-
