@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- ... your existing head content ... -->
+    <link rel="stylesheet" type="text/css" href="{% static 'app.css' %}" />
+    <link
+      rel="stylesheet"
+      href="http://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css"
+    />
+    <!-- ... rest of your head content ... -->
+  </head>
+
+  <body>
+    <!-- ... your existing body content ... -->
+    <nav>
+      <div class="heading">
+        <img src="{% static 'elena.jpg' %}" alt="Elena" />
+      </div>
+      <ul class="nav-links">
+        <li><a class="active" href="Maps.html">Maps</a></li>
+      </ul>
+    </nav>
+    <div id="map"></div>
+    <!-- ... rest of your body content ... -->
+
+    <!--leaflet js-->
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+    <script src="http://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+    <script>
+      // Map initialization
+      var map = L.map("map").setView([20.5937, 78.9629], 5);
+
+      //osm layer
+      var osm = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      );
+      osm.addTo(map);
+
+      //google satellite
+      googleSat = L.tileLayer(
+        "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        {
+          maxZoom: 20,
+          subdomains: ["mt0", "mt1", "mt2", "mt3"],
+        }
+      );
+      //googleSat.addTo(map)
+
+      //google street
+      googleStreets = L.tileLayer(
+        "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        {
+          maxZoom: 20,
+          subdomains: ["mt0", "mt1", "mt2", "mt3"],
+        }
+      );
+      //googleStreets.addTo(map)
+
+      // Layer controller
+      var baseMaps = {
+        OSM: osm,
+        "Google Street": googleStreets,
+        "Google Satellite": googleSat,
+      };
+
+      var Banasavadi2 = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+        layers: "it.geosolutions:Banasavadi2",
+        format: "image/png",
+        transparent: true,
+        attribution: "",
+      });
+      Banasavadi2.addTo(map);
+
+      var Banasavadi = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+        layers: "it.geosolutions:Banasavadi",
+        format: "image/png",
+        transparent: true,
+        attribution: "",
+      });
+      Banasavadi.addTo(map);
+
+      var F44F9_64M9_4 = L.tileLayer.wms(
+        "http://localhost:8080/geoserver/wms",
+        {
+          layers: "it.geosolutions:F44F9_64M9_4",
+          format: "image/png",
+          transparent: true,
+          attribution: "",
+        }
+      );
+      F44F9_64M9_4.addTo(map);
+
+      var F44F9_64M9_5 = L.tileLayer.wms(
+        "http://localhost:8080/geoserver/wms",
+        {
+          layers: "it.geosolutions:F44F9_64M9_5",
+          format: "image/png",
+          transparent: true,
+          attribution: "",
+        }
+      );
+      F44F9_64M9_5.addTo(map);
+
+      var F44F9_64M9_6 = L.tileLayer.wms(
+        "http://localhost:8080/geoserver/wms",
+        {
+          layers: "it.geosolutions:F44F9_64M9_6",
+          format: "image/png",
+          transparent: true,
+          attribution: "",
+        }
+      );
+      F44F9_64M9_6.addTo(map);
+
+      var F44F9_64M9_7 = L.tileLayer.wms(
+        "http://localhost:8080/geoserver/wms",
+        {
+          layers: "it.geosolutions:F44F9_64M9_7",
+          format: "image/png",
+          transparent: true,
+          attribution: "",
+        }
+      );
+      F44F9_64M9_7.addTo(map);
+
+      var F44F9_64M9_8 = L.tileLayer.wms(
+        "http://localhost:8080/geoserver/wms",
+        {
+          layers: "it.geosolutions:F44F9_64M9_8",
+          format: "image/png",
+          transparent: true,
+          attribution: "",
+        }
+      );
+      F44F9_64M9_8.addTo(map);
+
+      //add map scale bar
+      L.control.scale({ position: "topleft" }).addTo(map);
+
+      //Search boxx
+      L.Control.geocoder().addTo(map);
+
+      var options = {
+        position: "topleft",
+        drawMarker: true, // adds button to draw markers
+        drawCircleMarker: true,
+        drawRectangle: true,
+        drawPolygon: true, // adds button to draw a polygon
+        drawPolyline: true, // adds button to draw a polyline
+        drawCircle: true, // adds button to draw a circle
+        editMode: true, // adds button to toggle global edit mode
+        dragMode: true,
+        cutPolygon: true,
+        removalMode: true,
+        // deleteLayer: true   // adds a button to delete layers
+      };
+      map.pm.addControls(options);
+
+      var popup = L.popup();
+
+      function latLngPop(e) {
+        popup
+          .setLatLng(e.latlng)
+          .setContent(
+            "Latitude: " +
+              e.latlng.lat.toFixed(4) +
+              "<br>Longitude: " +
+              e.latlng.lng.toFixed(4)
+          )
+          .openOn(map);
+      }
+      map.on("click", latLngPop);
+
+      var overlayMaps = {
+        Banasavadi2: Banasavadi2,
+        Banasavadi: Banasavadi,
+        F44F9_64M9_4: F44F9_64M9_4,
+        F44F9_64M9_5: F44F9_64M9_5,
+        F44F9_64M9_6: F44F9_64M9_6,
+        F44F9_64M9_7: F44F9_64M9_7,
+        F44F9_64M9_8: F44F9_64M9_8,
+      };
+      L.control.layers(baseMaps, overlayMaps).addTo(map);
+    </script>
+  </body>
+</html>

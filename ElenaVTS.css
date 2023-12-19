@@ -1,0 +1,34 @@
+:root {
+    --custom-cyan: #00FFFF;
+  }
+  
+ 
+  .custom-cyan-text {
+    color: var(--custom-cyan); 
+  }
+  
+  .custom-skyBlue-bg {
+    background-color: #0d6efd;
+    opacity: 0.9; 
+  }
+  
+
+
+
+.container {
+    max-width: 1200px; 
+    margin: 0 auto;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-gap: 20px; 
+  }
+
+  
+
+#map{
+    height: 100%;
+    width: auto;
+}  

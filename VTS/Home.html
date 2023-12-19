@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VTS</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.pm@1.0.3/dist/leaflet.pm.min.css"
+    />
+  </head>
+  <body>
+    <div id="my-custom-map" style="width: 600px; height: 400px"></div>
+
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.pm@1.0.3/dist/leaflet.pm.min.js"></script>
+
+    <script>
+      var map = L.map("my-custom-map").setView([17,33], 13);
+
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {
+          id: "mapbox.streets",
+        }
+      ).addTo(map);
+
+      // Add Leaflet.pm functionality
+      map.pm.addControls();
+    </script>
+  </body>
+</html>
+
